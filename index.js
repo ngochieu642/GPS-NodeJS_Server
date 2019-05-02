@@ -41,17 +41,21 @@ var androidClients = [];
         });
      });
 
-     socket.on('base-send-GPS-message',function(data){
-         console.log('\n\nReceive '+data.length +' bytes from Base');
-         console.log('ID: ' + socket.id);
-         console.log(data);
+     socket.on('base-send-GPS-message',function(myObj){
+        
+        //Check data
+        var data = myObj.GPS;
+        console.log('\n\nReceive '+data.length +' bytes from Base');
+        console.log('ID: ' + socket.id);
+        console.log(data);
+        console.log(myObj.count + " times");
 
          //Log list of Android Devices and send to them
-         console.log("\nSending to list of Android devices:")
-         androidClients.forEach(function(entry){
-             console.log(entry);
-             io.sockets.connected[entry].emit('server-send-GPS-message',data);
+        console.log("\nSending to list of Android devices:")
+        androidClients.forEach(function(entry){
+            console.log(entry);
+            io.sockets.connected[entry].emit('server-send-GPS-message',myObj);
          });
-         console.log('------------------------------------')
+        console.log('------------------------------------')
      })
  });
